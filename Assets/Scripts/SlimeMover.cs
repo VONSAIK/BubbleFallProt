@@ -87,10 +87,10 @@ public class SlimeMover : MonoBehaviour, IService
         }
     }
 
-    private void OnDestroy()
-    {
-        _eventBus.Unsubscribe<SlimeLaunchedSignal>();
-        _eventBus.Unsubscribe<SlimeLandedSignal>();
-        _eventBus.Unsubscribe<SlimeAttachedSignal>();
-    }
+    //private void OnDestroy()
+    //{
+    //    _eventBus.Unsubscribe<SlimeLaunchedSignal>();
+    //    _eventBus.Unsubscribe<SlimeLandedSignal>();
+    //    _eventBus.Unsubscribe<SlimeAttachedSignal>();
+    //}
 }

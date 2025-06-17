@@ -3,31 +3,25 @@ using System.Collections.Generic;
 
 public class SlimeHexGridSpawner : MonoBehaviour, IService
 {
-    private PoolsController _poolsController;
-    private HexGridController _hexGrid;
+    private PoolsController _pools;
+    private HexGridController _grid;
 
     public void Init()
     {
-        _poolsController = ServiceLocator.Current.Get<PoolsController>();
-        _hexGrid = ServiceLocator.Current.Get<HexGridController>();
+        _pools = ServiceLocator.Current.Get<PoolsController>();
+        _grid = ServiceLocator.Current.Get<HexGridController>();
 
-        SpawnSlimes();
+        SpawnSlimesOnGrid();
     }
 
-    private void SpawnSlimes()
+    private void SpawnSlimesOnGrid()
     {
-        if (_hexGrid == null)
-        {
-            Debug.LogError("HexGridController not assigned!");
-            return;
-        }
-
-        List<Vector2Int> emptyCells = _hexGrid.GetEmptyCells();
+        List<Vector2Int> emptyCells = _grid.GetEmptyCells();
 
         foreach (var hex in emptyCells)
         {
-            Slime slime = _poolsController.GetSlime();
-            _hexGrid.RegisterSlime(slime, hex);
+            Slime slime = _pools.GetSlime();
+            _grid.RegisterSlime(slime, hex);
         }
     }
 }

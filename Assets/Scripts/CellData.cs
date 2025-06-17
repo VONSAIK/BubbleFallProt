@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class CellData
 {
-    public Vector2Int Hex { get; private set; }
-    public bool IsOccupied { get; set; }
-    public Slime Slime { get; set; }
+    public Vector2Int Hex;
+    public Slime Slime;
+
+    public bool IsOccupied => Slime != null;
 
     public CellData(Vector2Int hex)
     {
         Hex = hex;
-        IsOccupied = false;
         Slime = null;
     }
 }
