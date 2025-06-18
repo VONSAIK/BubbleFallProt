@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using CustomEventBus;
 using CustomEventBus.Signals;
+using System.Collections;
 
 public class SlimeGroupDetector : MonoBehaviour, IService
 {
@@ -35,10 +36,19 @@ public class SlimeGroupDetector : MonoBehaviour, IService
             Debug.Log($"Знайдено групу з {group.Count} слаймів.");
             _eventBus.Invoke(new SlimeGroupPoppedSignal(group));
         }
+        else
+        {
+            _eventBus.Invoke(new SlimeStepDownSignal());
+        }
+
 
         _matrix.DebugPrintGrid();
     }
-
+    private IEnumerator InvokeStepDownNextFrame()
+    {
+        yield return null;
+        
+    }
 
 
 }

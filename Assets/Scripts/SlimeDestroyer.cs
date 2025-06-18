@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using CustomEventBus;
 using CustomEventBus.Signals;
+using System.Collections;
 
 public class SlimeDestroyer : MonoBehaviour, IService
 {
@@ -50,8 +51,14 @@ public class SlimeDestroyer : MonoBehaviour, IService
             Debug.Log($"Осипалось {detached.Count} слаймів.");
             _eventBus.Invoke(new SlimesDetachedSignal(detached));
         }
-    }
 
+        _eventBus.Invoke(new SlimeStepDownSignal());
+    }
+    private IEnumerator InvokeStepDownNextFrame()
+    {
+        yield return null; 
+        
+    }
 
 
 }

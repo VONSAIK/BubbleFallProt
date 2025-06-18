@@ -15,6 +15,9 @@ public class HexGridController : MonoBehaviour, IService
     public int Rows => rows;
     public int Columns => columns;
 
+
+
+
     public void Init()
     {
         _geometry = new HexGridGeometry(hexRadius, origin.position);

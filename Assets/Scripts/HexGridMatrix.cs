@@ -74,7 +74,6 @@ public class HexGridMatrix
         slime.transform.position = _geometry.HexToWorld(hex);
     }
 
-
     public void Unregister(Vector2Int hex)
     {
         if (_grid.ContainsKey(hex))
@@ -92,6 +91,11 @@ public class HexGridMatrix
     }
 
     public Dictionary<Vector2Int, Slime> GetAllCells() => _grid;
+    public bool IsValidHex(Vector2Int hex)
+    {
+        return _grid.ContainsKey(hex);
+    }
+
 
     public HashSet<Vector2Int> GetConnectedGroup(Vector2Int start, SlimeColor color)
     {
@@ -172,8 +176,6 @@ public class HexGridMatrix
 
         return floating;
     }
-
-
 
     public Vector2Int? GetHexOfSlime(Slime slime)
     {
