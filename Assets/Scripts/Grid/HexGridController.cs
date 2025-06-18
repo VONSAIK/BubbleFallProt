@@ -11,6 +11,7 @@ public class HexGridController : MonoBehaviour, IService
 
     private HexGridGeometry _geometry;
     private HexGridMatrix _matrix;
+    private EventBus _eventBus;
 
     public int Rows => rows;
     public int Columns => columns;
@@ -25,8 +26,8 @@ public class HexGridController : MonoBehaviour, IService
 
         _matrix.InitializeGrid(columns, rows);
 
-        var bus = ServiceLocator.Current.Get<EventBus>();
-        bus.Subscride<SlimeLandedSignal>(OnSlimeLanded);
+        _eventBus = ServiceLocator.Current.Get<EventBus>();
+        _eventBus.Subscride<SlimeLandedSignal>(OnSlimeLanded);
     }
 
     public HexGridMatrix GetMatrix() => _matrix;
@@ -79,7 +80,7 @@ public class HexGridController : MonoBehaviour, IService
         if (bestHex.HasValue)
         {
             _matrix.Register(signal.Slime, bestHex.Value);
-            ServiceLocator.Current.Get<EventBus>().Invoke(new SlimeAttachedSignal(signal.Slime));
+            _eventBus.Invoke(new SlimeAttachedSignal(signal.Slime));
         }
         else
         {

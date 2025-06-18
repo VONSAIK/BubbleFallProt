@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace CustomEventBus.Signals
 {
-    public class SlimeGroupPoppedSignal
+    public class GridGroupPoppedSignal
     {
         public HashSet<Vector2Int> Group { get; }
 
-        public SlimeGroupPoppedSignal(HashSet<Vector2Int> group)
+        public GridGroupPoppedSignal(HashSet<Vector2Int> group)
         {
             Group = group;
         }

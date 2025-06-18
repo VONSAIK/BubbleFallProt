@@ -4,7 +4,7 @@ using CustomEventBus;
 using CustomEventBus.Signals;
 using System.Collections;
 
-public class SlimeGroupDetector : MonoBehaviour, IService
+public class GridGroupDetector : MonoBehaviour, IService
 {
     private HexGridMatrix _matrix;
     private EventBus _eventBus;
@@ -34,11 +34,11 @@ public class SlimeGroupDetector : MonoBehaviour, IService
         if (group.Count >= MinGroupSize)
         {
             Debug.Log($"Знайдено групу з {group.Count} слаймів.");
-            _eventBus.Invoke(new SlimeGroupPoppedSignal(group));
+            _eventBus.Invoke(new GridGroupPoppedSignal(group));
         }
         else
         {
-            _eventBus.Invoke(new SlimeStepDownSignal());
+            _eventBus.Invoke(new GridStepDownSignal());
         }
 
 

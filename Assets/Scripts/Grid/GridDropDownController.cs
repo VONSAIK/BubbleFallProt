@@ -3,7 +3,7 @@ using UnityEngine;
 using CustomEventBus;
 using CustomEventBus.Signals;
 
-public class SlimeDropDownController : MonoBehaviour, IService
+public class GridDropDownController : MonoBehaviour, IService
 {
     private HexGridMatrix _matrix;
     private HexGridController _gridController;
@@ -15,10 +15,10 @@ public class SlimeDropDownController : MonoBehaviour, IService
         _gridController = ServiceLocator.Current.Get<HexGridController>();
         _matrix = _gridController.GetMatrix();
 
-        _eventBus.Subscride<SlimeStepDownSignal>(OnStepDown);
+        _eventBus.Subscride<GridStepDownSignal>(OnStepDown);
     }
 
-    private void OnStepDown(SlimeStepDownSignal signal)
+    private void OnStepDown(GridStepDownSignal signal)
     {
         Dictionary<Vector2Int, Slime> currentGrid = _matrix.GetAllCells();
         List<(Vector2Int oldHex, Vector2Int newHex, Slime slime)> moves = new();
@@ -43,19 +43,16 @@ public class SlimeDropDownController : MonoBehaviour, IService
             moves.Add((currentHex, targetHex, slime));
         }
 
-        // Спочатку очистити старі комірки
         foreach (var move in moves)
         {
             _matrix.Unregister(move.oldHex);
         }
 
-        // Потім зареєструвати у нових
         foreach (var move in moves)
         {
             _matrix.Register(move.slime, move.newHex);
         }
 
-        // Оновити верхній ряд (очистити)
         int topRow = _gridController.Rows - 1;
         for (int x = 0; x < _gridController.Columns; x++)
         {
@@ -71,5 +68,22 @@ public class SlimeDropDownController : MonoBehaviour, IService
             Debug.LogWarning("Досягнуто нижньої межі. Гра завершена.");
             //_eventBus.Invoke(new GameOverSignal());
         }
+
+        bool topRowFree = true;
+
+        for (int x = 0; x < _gridController.Columns; x++)
+        {
+            if (_matrix.IsOccupied(new Vector2Int(x, topRow)))
+            {
+                topRowFree = false;
+                break;
+            }
+        }
+
+        if (topRowFree)
+        {
+            _eventBus.Invoke(new TopRowAvailableSignal());
+        }
+
     }
 }

@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 namespace CustomEventBus.Signals
 {
-    public class SlimesDetachedSignal
+    public class GridSlimeFallingDown
     {
         public List<Slime> DetachedSlimes { get; }
 
-        public SlimesDetachedSignal(List<Slime> slimes)
+        public GridSlimeFallingDown(List<Slime> slimes)
         {
             DetachedSlimes = slimes;
         }

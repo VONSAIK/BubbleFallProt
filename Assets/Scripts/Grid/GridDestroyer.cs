@@ -4,7 +4,7 @@ using CustomEventBus;
 using CustomEventBus.Signals;
 using System.Collections;
 
-public class SlimeDestroyer : MonoBehaviour, IService
+public class GridDestroyer : MonoBehaviour, IService
 {
     private HexGridMatrix _matrix;
     private PoolsController _pools;
@@ -15,10 +15,10 @@ public class SlimeDestroyer : MonoBehaviour, IService
         _matrix = ServiceLocator.Current.Get<HexGridController>().GetMatrix();
         _eventBus = ServiceLocator.Current.Get<EventBus>();
 
-        _eventBus.Subscride<SlimeGroupPoppedSignal>(OnGroupPopped);
+        _eventBus.Subscride<GridGroupPoppedSignal>(OnGroupPopped);
     }
 
-    private void OnGroupPopped(SlimeGroupPoppedSignal signal)
+    private void OnGroupPopped(GridGroupPoppedSignal signal)
     {
         foreach (var hex in signal.Group)
         {
@@ -49,10 +49,10 @@ public class SlimeDestroyer : MonoBehaviour, IService
         if (detached.Count > 0)
         {
             Debug.Log($"Осипалось {detached.Count} слаймів.");
-            _eventBus.Invoke(new SlimesDetachedSignal(detached));
+            _eventBus.Invoke(new GridSlimeFallingDown(detached));
         }
 
-        _eventBus.Invoke(new SlimeStepDownSignal());
+        _eventBus.Invoke(new GridStepDownSignal());
     }
     private IEnumerator InvokeStepDownNextFrame()
     {
