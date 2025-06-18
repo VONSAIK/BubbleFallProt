@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 
@@ -12,11 +13,38 @@ public class HexGridMatrix
         _geometry = geometry;
     }
 
-    public static readonly Vector2Int[] HexDirections =
+    public static readonly Vector2Int[] EvenRowDirections =
     {
-        new Vector2Int(1, 0), new Vector2Int(0, 1), new Vector2Int(-1, 1),
-        new Vector2Int(-1, 0), new Vector2Int(0, -1), new Vector2Int(1, -1)
+        new Vector2Int(1, 0),   
+        new Vector2Int(0, 1),   
+        new Vector2Int(-1, 1),  
+        new Vector2Int(-1, 0),  
+        new Vector2Int(-1, -1), 
+        new Vector2Int(0, -1),  
     };
+
+    public static readonly Vector2Int[] OddRowDirections =
+    {
+        new Vector2Int(1, 0),   
+        new Vector2Int(1, 1),   
+        new Vector2Int(0, 1),   
+        new Vector2Int(-1, 0),  
+        new Vector2Int(0, -1),  
+        new Vector2Int(1, -1),  
+    };
+
+    public IEnumerable<Vector2Int> GetNeighbours(Vector2Int hex)
+    {
+        var directions = hex.y % 2 == 0 ? EvenRowDirections : OddRowDirections;
+
+        foreach (var dir in directions)
+        {
+            var neighbor = hex + dir;
+            if (_grid.ContainsKey(neighbor))
+                yield return neighbor;
+        }
+    }
+
 
     public void InitializeGrid(int columns, int rows)
     {
@@ -37,11 +65,15 @@ public class HexGridMatrix
     public void Register(Slime slime, Vector2Int hex)
     {
         if (!_grid.ContainsKey(hex))
-            _grid[hex] = null;
+        {
+            Debug.LogWarning($"Hex {hex} поза межами сітки! Реєстрація не відбулася.");
+            return;
+        }
 
         _grid[hex] = slime;
         slime.transform.position = _geometry.HexToWorld(hex);
     }
+
 
     public void Unregister(Vector2Int hex)
     {
@@ -57,35 +89,6 @@ public class HexGridMatrix
     public Vector3 GetWorldFromHex(Vector2Int hex)
     {
         return _geometry.HexToWorld(hex);
-    }
-
-    public Vector2Int? FindClosestNeighbour(Vector2Int center, Vector3 hitPosition)
-    {
-        Vector2Int? closest = null;
-        float minDistance = float.MaxValue;
-
-        foreach (var dir in HexDirections)
-        {
-            var neighbor = center + dir;
-            if (_grid.ContainsKey(neighbor) && _grid[neighbor] != null)
-                continue;
-
-            Vector3 worldPos = _geometry.HexToWorld(neighbor);
-            float dist = Vector3.Distance(worldPos, hitPosition);
-            if (dist < minDistance)
-            {
-                minDistance = dist;
-                closest = neighbor;
-            }
-        }
-
-        return closest;
-    }
-
-    public IEnumerable<Vector2Int> GetNeighbours(Vector2Int hex)
-    {
-        foreach (var dir in HexDirections)
-            yield return hex + dir;
     }
 
     public Dictionary<Vector2Int, Slime> GetAllCells() => _grid;
@@ -104,6 +107,8 @@ public class HexGridMatrix
             if (visited.Contains(current)) continue;
             visited.Add(current);
 
+            if (!_grid.ContainsKey(current)) continue;
+
             var slime = GetSlime(current);
             if (slime == null || slime.SlimeColor != color) continue;
 
@@ -116,8 +121,59 @@ public class HexGridMatrix
             }
         }
 
+
         return result;
     }
+
+    public HashSet<Vector2Int> GetFloatingSlimes()
+    {
+        var connectedToTop = new HashSet<Vector2Int>();
+        var toCheck = new Queue<Vector2Int>();
+
+        int topRowY = _grid.Keys.Max(k => k.y); 
+
+        foreach (var kvp in _grid)
+        {
+            Vector2Int hex = kvp.Key;
+            Slime slime = kvp.Value;
+
+            if (hex.y == topRowY && slime != null)
+            {
+                connectedToTop.Add(hex);
+                toCheck.Enqueue(hex);
+            }
+        }
+
+        while (toCheck.Count > 0)
+        {
+            var current = toCheck.Dequeue();
+
+            foreach (var neighbor in GetNeighbours(current))
+            {
+                if (connectedToTop.Contains(neighbor)) continue;
+
+                if (_grid.TryGetValue(neighbor, out var slime) && slime != null)
+                {
+                    connectedToTop.Add(neighbor);
+                    toCheck.Enqueue(neighbor);
+                }
+            }
+        }
+
+        var floating = new HashSet<Vector2Int>();
+
+        foreach (var kvp in _grid)
+        {
+            if (kvp.Value != null && !connectedToTop.Contains(kvp.Key))
+            {
+                floating.Add(kvp.Key);
+            }
+        }
+
+        return floating;
+    }
+
+
 
     public Vector2Int? GetHexOfSlime(Slime slime)
     {
@@ -127,15 +183,8 @@ public class HexGridMatrix
 
         return null;
     }
-
-
-    public void RemoveGroup(HashSet<Vector2Int> group)
-    {
-        foreach (var hex in group)
-            Unregister(hex);
-    }
-
-    public void DebugPrintGrid(int maxRows = 50, int maxCols = 12)
+    
+    public void DebugPrintGrid(int maxRows = 50, int maxCols = 11)
     {
         StringBuilder sb = new StringBuilder();
         sb.AppendLine("=== HEX GRID STATE ===");

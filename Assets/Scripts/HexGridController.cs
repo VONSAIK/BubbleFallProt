@@ -33,7 +33,6 @@ public class HexGridController : MonoBehaviour, IService
         Vector3 hitPos = signal.Slime.transform.position;
         Vector2Int landedHex = _matrix.GetHexFromWorld(hitPos);
 
-        // Знаходимо найближчого зайнятого сусіда до точки удару
         Slime closest = null;
         float closestDist = float.MaxValue;
         Vector2Int targetHex = default;
@@ -57,13 +56,11 @@ public class HexGridController : MonoBehaviour, IService
             return;
         }
 
-        // Шукаємо найближчу вільну клітинку навколо targetHex
         Vector2Int? bestHex = null;
         float minDistance = float.MaxValue;
 
-        foreach (var dir in HexGridMatrix.HexDirections)
+        foreach (var neighborHex in _matrix.GetNeighbours(targetHex))
         {
-            var neighborHex = targetHex + dir;
             if (_matrix.IsOccupied(neighborHex)) continue;
 
             Vector3 world = _matrix.GetWorldFromHex(neighborHex);
@@ -74,6 +71,7 @@ public class HexGridController : MonoBehaviour, IService
                 bestHex = neighborHex;
             }
         }
+
 
         if (bestHex.HasValue)
         {

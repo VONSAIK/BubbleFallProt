@@ -30,6 +30,26 @@ public class SlimeDestroyer : MonoBehaviour, IService
         }
 
         Debug.Log($"Видалено групу з {signal.Group.Count} слаймів.");
+
+        var floating = _matrix.GetFloatingSlimes();
+        List<Slime> detached = new();
+
+        foreach (var hex in floating)
+        {
+            var slime = _matrix.GetSlime(hex);
+            if (slime != null)
+            {
+                detached.Add(slime);
+                _eventBus.Invoke(new DisposeSlimeSignal(slime));
+                _matrix.Unregister(hex);
+            }
+        }
+
+        if (detached.Count > 0)
+        {
+            Debug.Log($"Осипалось {detached.Count} слаймів.");
+            _eventBus.Invoke(new SlimesDetachedSignal(detached));
+        }
     }
 
 
