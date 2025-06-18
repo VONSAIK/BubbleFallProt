@@ -78,7 +78,8 @@ public class SlimeMover : MonoBehaviour, IService
                 if (hit.collider.CompareTag("Slime"))
                 {
                     slime.transform.position = hit.point - direction * 0.01f;
-                    _eventBus.Invoke(new SlimeLandedSignal(slime));
+
+                    _eventBus.Invoke(new SlimeLandedSignal(slime, direction));
                     continue;
                 }
             }

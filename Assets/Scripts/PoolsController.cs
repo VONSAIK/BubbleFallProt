@@ -1,4 +1,5 @@
 using CustomEventBus;
+using CustomEventBus.Signals;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,8 @@ public class PoolsController : MonoBehaviour, IService
     public void Init()
     {
         _eventBus = ServiceLocator.Current.Get<EventBus>();
+
+        _eventBus.Subscride<DisposeSlimeSignal>(DisposeSlime);
     }
 
     public Slime GetSlime()
@@ -45,5 +48,13 @@ public class PoolsController : MonoBehaviour, IService
         return pool;
     }
 
+    private void DisposeSlime(DisposeSlimeSignal signal)
+    {
+        var slime =signal.Slime;
+        var pool = GetPool(slime);
+
+        pool.Realease(slime);
+
+    }
 
 }

@@ -11,6 +11,8 @@ public class ServiceLocatorLoaderGameScene : MonoBehaviour
     [SerializeField] private SlimeHexGridSpawner _slimeHexGridSpawner;
     [SerializeField] private HexGridController _hexGridController;
     [SerializeField] private SlimeMover _slimeMover;
+    [SerializeField] private SlimeGroupDetector _slimeGroupDetector;
+    [SerializeField] private SlimeDestroyer _slimeDestroyer;
 
     private EventBus _eventBus;
 
@@ -32,6 +34,8 @@ public class ServiceLocatorLoaderGameScene : MonoBehaviour
         ServiceLocator.Current.Register<SlimeHexGridSpawner>(_slimeHexGridSpawner);
         ServiceLocator.Current.Register<HexGridController>(_hexGridController);
         ServiceLocator.Current.Register<SlimeMover>(_slimeMover);
+        ServiceLocator.Current.Register<SlimeGroupDetector>(_slimeGroupDetector);
+        ServiceLocator.Current.Register<SlimeDestroyer>(_slimeDestroyer);
     }
 
     private void Initialization()
@@ -41,5 +45,7 @@ public class ServiceLocatorLoaderGameScene : MonoBehaviour
         _slimeMover.Init();
         _hexGridController.Init();
         _slimeHexGridSpawner.Init();
+        _slimeGroupDetector.Init();
+        _slimeDestroyer.Init();
     }
 }
