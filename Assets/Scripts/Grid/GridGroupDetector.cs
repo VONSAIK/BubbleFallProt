@@ -14,7 +14,7 @@ public class GridGroupDetector : MonoBehaviour, IService
     {
         _matrix = ServiceLocator.Current.Get<HexGridController>().GetMatrix();
         _eventBus = ServiceLocator.Current.Get<EventBus>();
-        _eventBus.Subscride<SlimeAttachedSignal>(OnSlimeAttached);
+        _eventBus.Subscribe<SlimeAttachedSignal>(OnSlimeAttached);
     }
 
     private void OnSlimeAttached(SlimeAttachedSignal signal)

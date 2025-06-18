@@ -8,7 +8,7 @@ namespace CustomEventBus
     {
         private Dictionary<string, List<object>> _signalCallbacks = new Dictionary<string, List<object>>();
 
-        public void Subscride<T>(Action<T> callback)
+        public void Subscribe<T>(Action<T> callback)
         {
             string key = typeof(T).Name;
             if (_signalCallbacks.ContainsKey(key))

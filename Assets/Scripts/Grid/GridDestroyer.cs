@@ -15,7 +15,7 @@ public class GridDestroyer : MonoBehaviour, IService
         _matrix = ServiceLocator.Current.Get<HexGridController>().GetMatrix();
         _eventBus = ServiceLocator.Current.Get<EventBus>();
 
-        _eventBus.Subscride<GridGroupPoppedSignal>(OnGroupPopped);
+        _eventBus.Subscribe<GridGroupPoppedSignal>(OnGroupPopped);
     }
 
     private void OnGroupPopped(GridGroupPoppedSignal signal)
@@ -49,7 +49,7 @@ public class GridDestroyer : MonoBehaviour, IService
         if (detached.Count > 0)
         {
             Debug.Log($"Осипалось {detached.Count} слаймів.");
-            _eventBus.Invoke(new GridSlimeFallingDown(detached));
+            _eventBus.Invoke(new GridSlimeFallingDownSignal(detached));
         }
 
         _eventBus.Invoke(new GridStepDownSignal());

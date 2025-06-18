@@ -15,7 +15,7 @@ public class GridDropDownController : MonoBehaviour, IService
         _gridController = ServiceLocator.Current.Get<HexGridController>();
         _matrix = _gridController.GetMatrix();
 
-        _eventBus.Subscride<GridStepDownSignal>(OnStepDown);
+        _eventBus.Subscribe<GridStepDownSignal>(OnStepDown);
     }
 
     private void OnStepDown(GridStepDownSignal signal)

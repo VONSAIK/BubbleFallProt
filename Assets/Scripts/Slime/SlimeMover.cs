@@ -14,9 +14,9 @@ public class SlimeMover : MonoBehaviour, IService
     {
         _eventBus = ServiceLocator.Current.Get<EventBus>();
 
-        _eventBus.Subscride<SlimeLaunchedSignal>(OnSlimeLaunched);
-        _eventBus.Subscride<SlimeLandedSignal>(OnSlimeLanded);
-        _eventBus.Subscride<SlimeAttachedSignal>(OnSlimeAttached);
+        _eventBus.Subscribe<SlimeLaunchedSignal>(OnSlimeLaunched);
+        _eventBus.Subscribe<SlimeLandedSignal>(OnSlimeLanded);
+        _eventBus.Subscribe<SlimeAttachedSignal>(OnSlimeAttached);
     }
 
     private void OnSlimeLaunched(SlimeLaunchedSignal signal)

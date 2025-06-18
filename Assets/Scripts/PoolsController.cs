@@ -17,7 +17,7 @@ public class PoolsController : MonoBehaviour, IService
     {
         _eventBus = ServiceLocator.Current.Get<EventBus>();
 
-        _eventBus.Subscride<DisposeSlimeSignal>(DisposeSlime);
+        _eventBus.Subscribe<DisposeSlimeSignal>(DisposeSlime);
     }
 
     public Slime GetSlime()

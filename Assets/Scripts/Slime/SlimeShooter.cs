@@ -19,7 +19,7 @@ public class SlimeShooter : MonoBehaviour, IService
         _poolsController = ServiceLocator.Current.Get<PoolsController>();
         _mainCamera = Camera.main;
 
-        _eventBus.Subscride<SlimeAttachedSignal>(OnSlimeAttached);
+        _eventBus.Subscribe<SlimeAttachedSignal>(OnSlimeAttached);
 
         _canShoot = true;
         LoadNextSlime();

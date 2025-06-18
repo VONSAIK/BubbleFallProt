@@ -4,8 +4,8 @@ namespace CustomEventBus.Signals
 {
     public class SlimeLandedSignal
     {
-        public Slime Slime { get; }
-        public Vector3 Direction { get; }
+        public Slime Slime;
+        public Vector3 Direction;
 
         public SlimeLandedSignal(Slime slime, Vector3 direction)
         {

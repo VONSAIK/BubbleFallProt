@@ -20,7 +20,7 @@ public class SlimeHexGridSpawner : MonoBehaviour, IService
         _matrix = _gridController.GetMatrix();
 
         _eventBus = ServiceLocator.Current.Get<EventBus>();
-        _eventBus.Subscride<TopRowAvailableSignal>(OnTopRowAvailable);
+        _eventBus.Subscribe<TopRowAvailableSignal>(OnTopRowAvailable);
 
         SpawnSlimesOnGrid();
     }

@@ -27,7 +27,7 @@ public class HexGridController : MonoBehaviour, IService
         _matrix.InitializeGrid(columns, rows);
 
         _eventBus = ServiceLocator.Current.Get<EventBus>();
-        _eventBus.Subscride<SlimeLandedSignal>(OnSlimeLanded);
+        _eventBus.Subscribe<SlimeLandedSignal>(OnSlimeLanded);
     }
 
     public HexGridMatrix GetMatrix() => _matrix;
