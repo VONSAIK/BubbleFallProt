@@ -11,7 +11,8 @@ public class SlimeShooter : MonoBehaviour, IService
     private EventBus _eventBus;
 
     private Slime _currentSlime;
-    private bool _canShoot;
+
+    private bool _canShoot = true;
 
     public void Init()
     {
@@ -20,9 +21,15 @@ public class SlimeShooter : MonoBehaviour, IService
         _mainCamera = Camera.main;
 
         _eventBus.Subscribe<SlimeAttachedSignal>(OnSlimeAttached);
+        _eventBus.Subscribe<GameOverSignal>(OnGameOver);
 
         _canShoot = true;
         LoadNextSlime();
+    }
+
+    public void OnGameOver(GameOverSignal signal)
+    {
+        _canShoot = false;
     }
 
     private void Update()

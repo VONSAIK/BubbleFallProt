@@ -3,7 +3,7 @@ using UnityEngine;
 using CustomEventBus;
 using CustomEventBus.Signals;
 
-public class GridDropDownController : MonoBehaviour, IService
+public class GridDropDownController : IService
 {
     private HexGridMatrix _matrix;
     private HexGridController _gridController;
@@ -65,8 +65,7 @@ public class GridDropDownController : MonoBehaviour, IService
 
         if (gameOver)
         {
-            Debug.LogWarning("Досягнуто нижньої межі. Гра завершена.");
-            //_eventBus.Invoke(new GameOverSignal());
+            _eventBus.Invoke(new GameOverSignal());
         }
 
         bool topRowFree = true;

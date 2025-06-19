@@ -13,15 +13,17 @@ public class ServiceLocatorLoaderGameScene : MonoBehaviour
     [SerializeField] private SlimeMover _slimeMover;
     [SerializeField] private GridGroupDetector _slimeGroupDetector;
     [SerializeField] private GridDestroyer _slimeDestroyer;
-    [SerializeField] private GridDropDownController _slimeDropDownController;
+    [SerializeField] private GameController _gameController;
 
     private EventBus _eventBus;
     private ScoreController _scoreController;
+    private GridDropDownController _gridDropDownController;
 
     private void Awake()
     {
         _eventBus = new EventBus();
         _scoreController = new ScoreController();
+        _gridDropDownController = new GridDropDownController();
 
         RegisterService();
         Initialization();
@@ -40,7 +42,8 @@ public class ServiceLocatorLoaderGameScene : MonoBehaviour
         ServiceLocator.Current.Register<SlimeMover>(_slimeMover);
         ServiceLocator.Current.Register<GridGroupDetector>(_slimeGroupDetector);
         ServiceLocator.Current.Register<GridDestroyer>(_slimeDestroyer);
-        ServiceLocator.Current.Register<GridDropDownController>(_slimeDropDownController);
+        ServiceLocator.Current.Register(_gridDropDownController);
+        ServiceLocator.Current.Register<GameController>(_gameController);
     }
 
     private void Initialization()
@@ -50,9 +53,10 @@ public class ServiceLocatorLoaderGameScene : MonoBehaviour
         _slimeMover.Init();
         _hexGridController.Init();
         _slimeHexGridSpawner.Init();
-        _slimeDropDownController.Init();
+        _gridDropDownController.Init();
         _slimeGroupDetector.Init();
         _slimeDestroyer.Init();
         _scoreController.Init();
+        _gameController.Init();
     }
 }
