@@ -30,8 +30,6 @@ public class GridDestroyer : MonoBehaviour, IService
             }
         }
 
-        Debug.Log($"Видалено групу з {signal.Group.Count} слаймів.");
-
         var floating = _matrix.GetFloatingSlimes();
         List<Slime> detached = new();
 
@@ -40,15 +38,16 @@ public class GridDestroyer : MonoBehaviour, IService
             var slime = _matrix.GetSlime(hex);
             if (slime != null)
             {
-                detached.Add(slime);
-                _eventBus.Invoke(new DisposeSlimeSignal(slime));
-                _matrix.Unregister(hex);
+                var animator = slime.GetComponent<SlimeFallAnimator>();
+                if (animator != null)
+                    animator.StartFall();
+
+                _matrix.Unregister(hex); 
             }
         }
 
         if (detached.Count > 0)
         {
-            Debug.Log($"Осипалось {detached.Count} слаймів.");
             _eventBus.Invoke(new GridSlimeFallingDownSignal(detached));
         }
 

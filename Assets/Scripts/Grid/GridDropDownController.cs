@@ -50,7 +50,13 @@ public class GridDropDownController : IService
 
         foreach (var move in moves)
         {
+            Vector3 targetWorld = _matrix.GetWorldFromHex(move.newHex);
+            var animator = move.slime.GetComponent<SlimeMoveAnimator>();
+            if (animator != null)
+                animator.StartMoveTo(targetWorld);
+
             _matrix.Register(move.slime, move.newHex);
+
         }
 
         int topRow = _gridController.Rows - 1;

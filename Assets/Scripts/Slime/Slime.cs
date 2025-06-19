@@ -15,4 +15,6 @@ public class Slime : MonoBehaviour
     {
         _eventBus = ServiceLocator.Current.Get<EventBus>();
     }
+
+
 }

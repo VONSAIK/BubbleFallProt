@@ -9,7 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7102293733570618897}
+  - component: {fileID: -590282315287789270}
   - component: {fileID: 9030986505526146878}
+  - component: {fileID: 8781135663413414148}
   - component: {fileID: 8717741222845821788}
   - component: {fileID: 3152173342888293165}
   m_Layer: 6
@@ -35,6 +37,19 @@ Transform:
   - {fileID: 3473427510006444284}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-590282315287789270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2565717018724114094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34640d1eec1fad44baffde0fae897406, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveDuration: 0.2
 --- !u!114 &9030986505526146878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48,6 +63,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _slimeColor: 2
+--- !u!114 &8781135663413414148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2565717018724114094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ed17e8426696ff49b0d6c9343b784ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallSpeed: 7
+  targetZ: -6
 --- !u!54 &8717741222845821788
 Rigidbody:
   m_ObjectHideFlags: 0

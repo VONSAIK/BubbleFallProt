@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2686283013320946348}
+  - component: {fileID: -2594994369274694995}
+  - component: {fileID: 2282051382042094166}
   - component: {fileID: -657378681373132480}
   - component: {fileID: 2114160368978812642}
   - component: {fileID: 2166572631791748886}
@@ -35,6 +37,33 @@ Transform:
   - {fileID: 1897024819341501738}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-2594994369274694995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920328471620644980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34640d1eec1fad44baffde0fae897406, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveDuration: 0.2
+--- !u!114 &2282051382042094166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920328471620644980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ed17e8426696ff49b0d6c9343b784ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallSpeed: 7
+  targetZ: -6
 --- !u!114 &-657378681373132480
 MonoBehaviour:
   m_ObjectHideFlags: 0

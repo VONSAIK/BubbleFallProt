@@ -20,7 +20,7 @@ public class ScoreController : IService
 
     private void OnGroupPopped(GridGroupPoppedSignal signal)
     {
-        int points = signal.Group.Count * _priceForSlime;
+        int points = signal.Group.Count * _priceForSlime + _priceForSlime;
         AddScore(points);
         Debug.Log($"+{points} очок за групу");
     }
